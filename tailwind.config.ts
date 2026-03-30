@@ -13,6 +13,11 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ['Playfair Display', 'serif'],
+        body: ['Outfit', 'sans-serif'],
+        accent: ['Cormorant Garamond', 'serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -47,6 +52,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        saffron: "hsl(var(--saffron))",
+        turmeric: "hsl(var(--turmeric))",
+        tandoori: "hsl(var(--tandoori))",
+        "spice-green": "hsl(var(--spice-green))",
+        cream: "hsl(var(--cream))",
+        parchment: "hsl(var(--parchment))",
+        copper: "hsl(var(--copper))",
+        "deep-maroon": "hsl(var(--deep-maroon))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
