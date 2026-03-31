@@ -1,27 +1,27 @@
 import { motion } from "framer-motion";
-import { Calendar, MapPin, Users, Utensils } from "lucide-react";
+import { ChefHat, MapPin, Users, Star } from "lucide-react";
 import BookPage from "./BookPage";
 
 const features = [
   {
-    icon: Calendar,
-    title: "Monthly Gatherings",
-    desc: "Every last Saturday, we celebrate a different regional cuisine of India.",
+    icon: ChefHat,
+    title: "For Hosts",
+    desc: "List your supper club, set your own menu and pricing, and reach food lovers in your city.",
   },
   {
-    icon: Utensils,
-    title: "Authentic Recipes",
-    desc: "Dishes passed down through generations, cooked with traditional techniques.",
+    icon: Star,
+    title: "Curated Experiences",
+    desc: "Every pop-up is vetted for authenticity, quality, and the magic of intimate dining.",
   },
   {
     icon: Users,
-    title: "Intimate Setting",
-    desc: "Limited to 20 guests per evening for a truly personal experience.",
+    title: "Community First",
+    desc: "Connect with fellow food lovers, leave reviews, and build your supper club reputation.",
   },
   {
     icon: MapPin,
-    title: "Rotating Venues",
-    desc: "Beautiful heritage homes and courtyards across the city.",
+    title: "Pan-India",
+    desc: "From metros to small towns — discover pop-ups in every corner of the country.",
   },
 ];
 
@@ -37,10 +37,10 @@ const SupperClubInfo = () => {
         >
           <div className="w-12 h-0.5 bg-primary mx-auto mb-6" />
           <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Join the Table
+            Host or Discover
           </h2>
           <p className="font-accent text-xl italic text-muted-foreground">
-            Where strangers become friends over shared plates
+            The platform for India's supper club movement
           </p>
         </motion.div>
 
@@ -69,7 +69,6 @@ const SupperClubInfo = () => {
           ))}
         </div>
 
-        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -78,14 +77,13 @@ const SupperClubInfo = () => {
           className="text-center"
         >
           <button className="spice-gradient font-body text-primary-foreground px-10 py-4 rounded-full text-lg font-medium tracking-wide hover:opacity-90 transition-opacity shadow-lg">
-            Reserve Your Seat
+            List Your Supper Club
           </button>
           <p className="font-accent text-sm text-muted-foreground/60 mt-4 italic">
-            Next gathering: April 26, 2026 — Coastal Konkan
+            Free to list • No commission on first 3 events
           </p>
         </motion.div>
 
-        {/* Bottom ornament */}
         <div className="mt-16 flex items-center gap-3">
           <div className="w-12 h-px bg-border" />
           <span className="font-accent text-muted-foreground/40 text-sm italic">fin</span>

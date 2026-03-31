@@ -15,24 +15,18 @@ const BookCover = ({ onOpen, isOpen }: BookCoverProps) => {
       transition={{ duration: 0.8 }}
       style={{ pointerEvents: isOpen ? "none" : "auto" }}
     >
-      {/* Background */}
       <div className="absolute inset-0 bg-deep-maroon" />
       
-      {/* Book */}
       <motion.div
         className="relative w-[90vw] max-w-[600px] aspect-[3/4] rounded-r-lg overflow-hidden shadow-2xl"
         animate={isOpen ? { rotateY: -120, scale: 0.8 } : { rotateY: 0 }}
         transition={{ duration: 1, ease: "easeInOut" }}
         style={{ transformOrigin: "left center", perspective: 1200 }}
       >
-        {/* Cover texture */}
         <div className="absolute inset-0 bg-gradient-to-br from-deep-maroon via-tandoori to-deep-maroon" />
-        
-        {/* Ornamental frame */}
         <div className="absolute inset-4 border-2 border-saffron/40 rounded-sm" />
         <div className="absolute inset-6 border border-saffron/20 rounded-sm" />
 
-        {/* Cover image */}
         <div className="absolute inset-12 rounded-lg overflow-hidden">
           <img 
             src={heroThali} 
@@ -44,7 +38,6 @@ const BookCover = ({ onOpen, isOpen }: BookCoverProps) => {
           <div className="absolute inset-0 bg-gradient-to-t from-deep-maroon/90 via-deep-maroon/30 to-transparent" />
         </div>
 
-        {/* Title */}
         <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -54,10 +47,10 @@ const BookCover = ({ onOpen, isOpen }: BookCoverProps) => {
           >
             <div className="w-16 h-0.5 bg-saffron mx-auto mb-4" />
             <h1 className="font-display text-4xl md:text-5xl font-bold text-saffron tracking-wide">
-              The Supper Club
+              Pop-Up India
             </h1>
             <p className="font-accent text-xl md:text-2xl text-saffron/70 mt-2 italic">
-              A Culinary Journey Through India
+              Discover Supper Clubs Across India
             </p>
             <div className="w-16 h-0.5 bg-saffron mx-auto mt-4" />
           </motion.div>
@@ -72,7 +65,6 @@ const BookCover = ({ onOpen, isOpen }: BookCoverProps) => {
           </motion.p>
         </div>
 
-        {/* Spine highlight */}
         <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-black/30 to-transparent" />
       </motion.div>
     </motion.div>

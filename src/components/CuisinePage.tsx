@@ -1,14 +1,16 @@
 import { motion } from "framer-motion";
 import BookPage from "./BookPage";
+import SupperClubCard from "./SupperClubCard";
+import type { SupperClubListing } from "@/types/supper-club";
 
 interface CuisinePageProps {
   pageNumber: number;
   title: string;
   subtitle: string;
-  description: string;
-  dishes: string[];
-  image: string;
+  tagline: string;
+  headerImage: string;
   accentColor: string;
+  listings: SupperClubListing[];
   reverse?: boolean;
 }
 
@@ -16,118 +18,72 @@ const CuisinePage = ({
   pageNumber,
   title,
   subtitle,
-  description,
-  dishes,
-  image,
+  tagline,
+  headerImage,
   accentColor,
-  reverse = false,
+  listings,
 }: CuisinePageProps) => {
   return (
     <BookPage pageNumber={pageNumber} isActive={true}>
-      <div className={`min-h-screen flex flex-col ${reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-stretch`}>
-        {/* Image side */}
-        <motion.div
-          className="lg:w-1/2 h-[50vh] lg:h-auto relative overflow-hidden"
-          initial={{ opacity: 0, scale: 1.1 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
+      <div className="min-h-screen">
+        {/* Hero banner */}
+        <div className="relative h-[35vh] md:h-[40vh] overflow-hidden">
           <img
-            src={image}
+            src={headerImage}
             alt={title}
             className="w-full h-full object-cover"
             loading="lazy"
-            width={800}
-            height={600}
           />
-          <div className={`absolute inset-0 bg-gradient-to-${reverse ? 'l' : 'r'} from-transparent via-transparent to-parchment/50 hidden lg:block`} />
-          <div className="absolute inset-0 bg-gradient-to-t from-parchment/80 to-transparent lg:hidden" />
-        </motion.div>
-
-        {/* Content side */}
-        <div className="lg:w-1/2 flex items-center px-8 md:px-16 py-12 lg:py-0">
-          <div className="max-w-lg mx-auto">
-            {/* Ornamental top */}
+          <div className="absolute inset-0 bg-gradient-to-t from-parchment via-parchment/40 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 px-8 md:px-16 pb-8">
             <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="h-0.5 w-24 mb-6"
-              style={{ background: accentColor }}
-            />
-
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="font-accent text-lg italic text-muted-foreground mb-2"
-            >
-              {subtitle}
-            </motion.p>
-
-            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight"
+              transition={{ duration: 0.6 }}
             >
-              {title}
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-              className="font-body text-muted-foreground leading-relaxed mb-8"
-            >
-              {description}
-            </motion.p>
-
-            {/* Dishes list */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6 }}
-              className="space-y-3"
-            >
-              <p className="font-accent text-sm uppercase tracking-[0.2em] text-muted-foreground/60 mb-4">
-                Signature Dishes
+              <div className="h-0.5 w-20 mb-4" style={{ background: accentColor }} />
+              <p className="font-accent text-base italic text-muted-foreground mb-1">
+                {subtitle}
               </p>
-              <div className="grid grid-cols-2 gap-2">
-                {dishes.map((dish, i) => (
-                  <motion.div
-                    key={dish}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.7 + i * 0.1 }}
-                    className="flex items-center gap-2"
-                  >
-                    <span
-                      className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                      style={{ background: accentColor }}
-                    />
-                    <span className="font-body text-sm text-foreground/80">{dish}</span>
-                  </motion.div>
-                ))}
-              </div>
+              <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground leading-tight">
+                {title}
+              </h2>
+              <p className="font-body text-sm text-muted-foreground/80 mt-2 max-w-lg">
+                {tagline}
+              </p>
             </motion.div>
+          </div>
+        </div>
 
-            {/* Ornamental bottom */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="h-0.5 w-16 mt-8"
+        {/* Listings section */}
+        <div className="px-6 md:px-12 lg:px-16 py-10">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="flex items-center gap-3 mb-8"
+          >
+            <span
+              className="w-2 h-2 rounded-full"
               style={{ background: accentColor }}
             />
+            <p className="font-accent text-sm uppercase tracking-[0.2em] text-muted-foreground/60">
+              {listings.length} Pop-ups Available
+            </p>
+            <div className="flex-1 h-px bg-border/50" />
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {listings.map((listing, i) => (
+              <SupperClubCard
+                key={listing.id}
+                listing={listing}
+                index={i}
+                accentColor={accentColor}
+              />
+            ))}
           </div>
         </div>
       </div>
