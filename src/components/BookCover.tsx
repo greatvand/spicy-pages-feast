@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import heroThali from "@/assets/hero-thali.jpg";
+import logo from "@/assets/logo.png";
 
 interface BookCoverProps {
   onOpen: () => void;
@@ -45,13 +46,11 @@ const BookCover = ({ onOpen, isOpen }: BookCoverProps) => {
             transition={{ delay: 0.5, duration: 0.8 }}
             className="text-center"
           >
-            <div className="w-16 h-0.5 bg-saffron mx-auto mb-4" />
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-saffron tracking-wide">
-              Pop-Up India
-            </h1>
-            <p className="font-accent text-xl md:text-2xl text-saffron/70 mt-2 italic">
-              Discover Supper Clubs Across India
-            </p>
+            <img 
+              src={logo} 
+              alt="Jeemann - meet · eat · belong" 
+              className="w-48 md:w-64 mx-auto mb-2 drop-shadow-lg"
+            />
             <div className="w-16 h-0.5 bg-saffron mx-auto mt-4" />
           </motion.div>
           
