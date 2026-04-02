@@ -59,6 +59,13 @@ const SupperClubCard = ({ listing, index, accentColor }: SupperClubCardProps) =>
 
       {/* Content */}
       <div className="p-4">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="font-body text-[10px] font-medium uppercase tracking-wider text-primary/80 bg-primary/10 px-2 py-0.5 rounded-full">
+            {listing.cuisine}
+          </span>
+          <span className="font-body text-[10px] text-muted-foreground">·</span>
+          <span className="font-body text-[10px] text-muted-foreground">{listing.city}</span>
+        </div>
         <p className="font-accent text-xs italic text-muted-foreground mb-1">
           Hosted by {listing.host}
         </p>
