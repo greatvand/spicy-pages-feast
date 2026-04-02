@@ -5,6 +5,7 @@ export interface SupperClubListing {
   date: string;
   time: string;
   price: string;
+  city: string;
   location: string;
   capacity: number;
   spotsLeft: number;
