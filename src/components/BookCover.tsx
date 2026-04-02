@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import heroThali from "@/assets/hero-thali.jpg";
+import logo from "@/assets/logo.png";
 
 interface BookCoverProps {
   onOpen: () => void;
