@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ChefHat, Flame, UtensilsCrossed } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import SpiceJarMeter from "@/components/signup/SpiceJarMeter";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
 import logo from "@/assets/jeemann-logo.jpeg";
 
 const STEPS = ["name", "email", "password"] as const;
@@ -23,8 +25,9 @@ const stepIcons: Record<Step, React.ReactNode> = {
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { playSizzle, playCreak, playClink, playWelcome } = useSoundEffects();
   const [currentStep, setCurrentStep] = useState(0);
-  const [doorOpen, setDoorOpen] = useState(0); // 0 to 100
+  const [doorOpen, setDoorOpen] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [isEntering, setIsEntering] = useState(false);
@@ -39,11 +42,13 @@ const Signup = () => {
   const handleNext = () => {
     if (!formData[step]) return;
     if (currentStep < STEPS.length - 1) {
+      playSizzle();
+      playCreak();
       setCurrentStep((p) => p + 1);
     } else {
-      // All fields complete — animate entry
+      playWelcome();
       setIsEntering(true);
-      setTimeout(() => navigate("/"), 2000);
+      setTimeout(() => navigate("/onboarding"), 2000);
     }
   };
 
@@ -51,7 +56,15 @@ const Signup = () => {
     if (e.key === "Enter") handleNext();
   };
 
-  const doorAngle = (doorOpen / 100) * 75; // max 75deg perspective open
+  const handleInputChange = (value: string) => {
+    setFormData((p) => ({ ...p, [step]: value }));
+    // Subtle click on each keystroke
+    if (value.length > formData[step].length) {
+      playClink();
+    }
+  };
+
+  const doorAngle = (doorOpen / 100) * 75;
 
   return (
     <div className="min-h-screen bg-deep-maroon flex items-center justify-center overflow-hidden relative">
@@ -61,10 +74,7 @@ const Signup = () => {
           key={i}
           className="absolute w-1 h-1 rounded-full bg-saffron/40"
           initial={{ x: Math.random() * 400 - 200, y: Math.random() * 400, opacity: 0 }}
-          animate={{
-            y: [Math.random() * 600, -50],
-            opacity: [0, 0.8, 0],
-          }}
+          animate={{ y: [Math.random() * 600, -50], opacity: [0, 0.8, 0] }}
           transition={{ duration: 4 + Math.random() * 3, repeat: Infinity, delay: i * 0.8 }}
         />
       ))}
@@ -87,11 +97,7 @@ const Signup = () => {
                   left: `${40 + i * 5}%`,
                   top: `${20 + i * 10}%`,
                 }}
-                animate={{
-                  y: [-20, -60],
-                  opacity: [0.3, 0],
-                  scale: [1, 1.5],
-                }}
+                animate={{ y: [-20, -60], opacity: [0.3, 0], scale: [1, 1.5] }}
                 transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
               />
             ))}
@@ -143,11 +149,10 @@ const Signup = () => {
 
         {/* Kitchen Door Frame */}
         <div className="relative" style={{ perspective: "1000px" }}>
-          {/* Door frame */}
           <div className="absolute -inset-3 border-4 border-copper/60 rounded-xl bg-copper/10" />
           <div className="absolute -inset-1 border-2 border-saffron/20 rounded-lg" />
 
-          {/* Warm light from inside (visible as door opens) */}
+          {/* Warm light from inside */}
           <motion.div
             className="absolute inset-0 rounded-lg overflow-hidden"
             style={{ opacity: doorOpen / 150 }}
@@ -159,16 +164,12 @@ const Signup = () => {
                 animate={{ opacity: [0.3, 0.7, 0.3] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                {doorOpen < 50
-                  ? "Something's cooking..."
-                  : doorOpen < 90
-                  ? "Almost there..."
-                  : "The table is set!"}
+                {doorOpen < 50 ? "Something's cooking..." : doorOpen < 90 ? "Almost there..." : "The table is set!"}
               </motion.p>
             </div>
           </motion.div>
 
-          {/* The Door (swings open based on progress) */}
+          {/* The Door */}
           <motion.div
             className="relative rounded-lg overflow-hidden bg-gradient-to-b from-tandoori via-deep-maroon to-tandoori border border-copper/40 shadow-2xl"
             animate={{ rotateY: -doorAngle }}
@@ -185,15 +186,12 @@ const Signup = () => {
             {/* Door handle */}
             <div className="absolute right-4 top-1/2 -translate-y-1/2 w-2 h-12 bg-saffron/40 rounded-full shadow-lg" />
 
-            {/* Form content on the door */}
+            {/* Form content */}
             <div className="relative z-10 p-8 md:p-10">
               {/* Progress bar */}
               <div className="flex gap-2 mb-8">
                 {STEPS.map((s, i) => (
-                  <motion.div
-                    key={s}
-                    className="h-1.5 flex-1 rounded-full overflow-hidden bg-copper/30"
-                  >
+                  <motion.div key={s} className="h-1.5 flex-1 rounded-full overflow-hidden bg-copper/30">
                     <motion.div
                       className="h-full bg-saffron rounded-full"
                       initial={{ width: 0 }}
@@ -204,7 +202,7 @@ const Signup = () => {
                 ))}
               </div>
 
-              {/* Step label */}
+              {/* Step content */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={step}
@@ -223,7 +221,7 @@ const Signup = () => {
                     {stepLabels[step]}
                   </h2>
 
-                  {/* Input */}
+                  {/* Input with ink effect */}
                   <div className="relative">
                     <Input
                       type={step === "password" ? (showPassword ? "text" : "password") : step === "email" ? "email" : "text"}
@@ -231,10 +229,14 @@ const Signup = () => {
                         step === "name" ? "Your full name" : step === "email" ? "your@email.com" : "Create a password"
                       }
                       value={formData[step]}
-                      onChange={(e) => setFormData((p) => ({ ...p, [step]: e.target.value }))}
+                      onChange={(e) => handleInputChange(e.target.value)}
                       onKeyDown={handleKeyDown}
                       autoFocus
-                      className="bg-deep-maroon/80 border-copper/40 text-saffron placeholder:text-copper/50 h-14 text-lg font-body focus-visible:ring-saffron/50 pr-12"
+                      className="bg-deep-maroon/80 border-copper/40 text-saffron placeholder:text-copper/50 h-14 text-lg font-accent italic focus-visible:ring-saffron/50 pr-12 tracking-wide"
+                      style={{
+                        // Ink effect: text appears with slight delay feel via font style
+                        textShadow: formData[step] ? "0 0 8px hsl(var(--saffron) / 0.3)" : "none",
+                      }}
                     />
                     {step === "password" && (
                       <button
@@ -247,7 +249,31 @@ const Signup = () => {
                     )}
                   </div>
 
-                  {/* Action button */}
+                  {/* Spice Jar password strength */}
+                  {step === "password" && <SpiceJarMeter password={formData.password} />}
+
+                  {/* Ink drip decoration under input */}
+                  <AnimatePresence>
+                    {formData[step] && (
+                      <motion.div
+                        className="flex justify-center gap-1 mt-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                      >
+                        {[...Array(Math.min(formData[step].length, 8))].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            className="w-0.5 bg-saffron/20 rounded-full"
+                            initial={{ height: 0 }}
+                            animate={{ height: 4 + Math.random() * 8 }}
+                            transition={{ delay: i * 0.05, duration: 0.3 }}
+                          />
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
                   <Button
                     onClick={handleNext}
                     disabled={!formData[step]}
@@ -256,10 +282,12 @@ const Signup = () => {
                     {currentStep < STEPS.length - 1 ? "Continue →" : "Enter the Kitchen 🍳"}
                   </Button>
 
-                  {/* Back button */}
                   {currentStep > 0 && (
                     <button
-                      onClick={() => setCurrentStep((p) => p - 1)}
+                      onClick={() => {
+                        playCreak();
+                        setCurrentStep((p) => p - 1);
+                      }}
                       className="w-full mt-3 text-sm text-copper/60 hover:text-saffron font-accent transition-colors"
                     >
                       ← Go back
@@ -268,14 +296,10 @@ const Signup = () => {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Footer */}
               <div className="mt-8 text-center">
                 <p className="font-accent text-sm text-copper/50">
                   Already a member?{" "}
-                  <button
-                    onClick={() => navigate("/login")}
-                    className="text-saffron hover:underline"
-                  >
+                  <button onClick={() => navigate("/login")} className="text-saffron hover:underline">
                     Walk right in
                   </button>
                 </p>
@@ -284,7 +308,6 @@ const Signup = () => {
           </motion.div>
         </div>
 
-        {/* Tagline */}
         <motion.p
           className="text-center mt-6 font-accent text-sm italic text-copper/40"
           initial={{ opacity: 0 }}
