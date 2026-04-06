@@ -2,7 +2,6 @@ import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import BookCover from "@/components/BookCover";
 import IntroPage from "@/components/IntroPage";
-import SearchFilter from "@/components/SearchFilter";
 import CuisinePage from "@/components/CuisinePage";
 import SupperClubInfo from "@/components/SupperClubInfo";
 import { cuisineCategories } from "@/data/listings";
@@ -21,7 +20,6 @@ const Index = () => {
       {isBookOpen && (
         <main className="relative">
           <IntroPage />
-          <SearchFilter />
           {cuisineCategories.map((category) => (
             <CuisinePage key={category.pageNumber} {...category} />
           ))}

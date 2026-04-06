@@ -34,7 +34,7 @@ const CuisinePage = ({
             className="w-full h-full object-cover"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-sand via-sand/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-parchment via-parchment/40 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 px-8 md:px-16 pb-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

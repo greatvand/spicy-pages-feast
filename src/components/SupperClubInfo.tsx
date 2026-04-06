@@ -20,8 +20,8 @@ const features = [
   },
   {
     icon: MapPin,
-    title: "Worldwide",
-    desc: "From New York to Tokyo, Paris to Mexico City — discover pop-ups across the globe.",
+    title: "Pan-India",
+    desc: "From metros to small towns — discover pop-ups in every corner of the country.",
   },
 ];
 
@@ -40,7 +40,7 @@ const SupperClubInfo = () => {
             Host or Discover
           </h2>
           <p className="font-accent text-xl italic text-muted-foreground">
-            The global platform for supper club culture
+            The platform for India's supper club movement
           </p>
         </motion.div>
 
@@ -54,7 +54,7 @@ const SupperClubInfo = () => {
               transition={{ delay: 0.2 + i * 0.15 }}
               className="flex gap-4 p-6 rounded-lg bg-card/60 border border-border/50"
             >
-              <div className="w-12 h-12 rounded-full warm-gradient flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 rounded-full spice-gradient flex items-center justify-center flex-shrink-0">
                 <feature.icon className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
@@ -76,11 +76,11 @@ const SupperClubInfo = () => {
           transition={{ delay: 0.6 }}
           className="text-center"
         >
-          <button className="warm-gradient font-body text-primary-foreground px-10 py-4 rounded-full text-lg font-medium tracking-wide hover:opacity-90 transition-opacity shadow-lg">
+          <button className="spice-gradient font-body text-primary-foreground px-10 py-4 rounded-full text-lg font-medium tracking-wide hover:opacity-90 transition-opacity shadow-lg">
             List Your Supper Club
           </button>
           <p className="font-accent text-sm text-muted-foreground/60 mt-4 italic">
-            Free to list · No commission on first 3 events
+            Free to list • No commission on first 3 events
           </p>
         </motion.div>
 

@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import heroGlobal from "@/assets/hero-global.jpg";
-import logo from "@/assets/logo.png";
+import heroThali from "@/assets/hero-thali.jpg";
 
 interface BookCoverProps {
   onOpen: () => void;
@@ -16,7 +15,7 @@ const BookCover = ({ onOpen, isOpen }: BookCoverProps) => {
       transition={{ duration: 0.8 }}
       style={{ pointerEvents: isOpen ? "none" : "auto" }}
     >
-      <div className="absolute inset-0 bg-charcoal" />
+      <div className="absolute inset-0 bg-deep-maroon" />
       
       <motion.div
         className="relative w-[90vw] max-w-[600px] aspect-[3/4] rounded-r-lg overflow-hidden shadow-2xl"
@@ -24,19 +23,19 @@ const BookCover = ({ onOpen, isOpen }: BookCoverProps) => {
         transition={{ duration: 1, ease: "easeInOut" }}
         style={{ transformOrigin: "left center", perspective: 1200 }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-wine to-charcoal" />
-        <div className="absolute inset-4 border-2 border-warm-gold/40 rounded-sm" />
-        <div className="absolute inset-6 border border-warm-gold/20 rounded-sm" />
+        <div className="absolute inset-0 bg-gradient-to-br from-deep-maroon via-tandoori to-deep-maroon" />
+        <div className="absolute inset-4 border-2 border-saffron/40 rounded-sm" />
+        <div className="absolute inset-6 border border-saffron/20 rounded-sm" />
 
         <div className="absolute inset-12 rounded-lg overflow-hidden">
           <img 
-            src={heroGlobal} 
-            alt="Global Supper Club" 
-            className="w-full h-full object-cover opacity-60"
+            src={heroThali} 
+            alt="Indian Thali" 
+            className="w-full h-full object-cover opacity-70"
             width={1280}
             height={960}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-deep-maroon/90 via-deep-maroon/30 to-transparent" />
         </div>
 
         <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 px-8">
@@ -46,22 +45,21 @@ const BookCover = ({ onOpen, isOpen }: BookCoverProps) => {
             transition={{ delay: 0.5, duration: 0.8 }}
             className="text-center"
           >
-            <img 
-              src={logo} 
-              alt="Jeemann - meet · eat · belong" 
-              className="w-48 md:w-64 mx-auto mb-4 drop-shadow-lg"
-            />
-            <p className="font-accent text-xl md:text-2xl text-warm-gold/70 italic">
-              Global Supper Clubs
+            <div className="w-16 h-0.5 bg-saffron mx-auto mb-4" />
+            <h1 className="font-display text-4xl md:text-5xl font-bold text-saffron tracking-wide">
+              Pop-Up India
+            </h1>
+            <p className="font-accent text-xl md:text-2xl text-saffron/70 mt-2 italic">
+              Discover Supper Clubs Across India
             </p>
-            <div className="w-16 h-0.5 bg-warm-gold mx-auto mt-4" />
+            <div className="w-16 h-0.5 bg-saffron mx-auto mt-4" />
           </motion.div>
           
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 1, 0.5, 1] }}
             transition={{ delay: 1.5, duration: 2, repeat: Infinity, repeatDelay: 2 }}
-            className="font-body text-sm text-warm-gold/50 mt-8 tracking-widest uppercase"
+            className="font-body text-sm text-saffron/50 mt-8 tracking-widest uppercase"
           >
             Tap to open
           </motion.p>

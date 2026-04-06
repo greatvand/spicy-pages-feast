@@ -14,9 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['DM Serif Display', 'serif'],
-        body: ['DM Sans', 'sans-serif'],
-        accent: ['Instrument Serif', 'serif'],
+        display: ['Playfair Display', 'serif'],
+        body: ['Outfit', 'sans-serif'],
+        accent: ['Cormorant Garamond', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -52,14 +52,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        "warm-gold": "hsl(var(--warm-gold))",
-        terracotta: "hsl(var(--terracotta))",
-        olive: "hsl(var(--olive))",
-        charcoal: "hsl(var(--charcoal))",
-        linen: "hsl(var(--linen))",
-        sand: "hsl(var(--sand))",
-        wine: "hsl(var(--wine))",
-        sage: "hsl(var(--sage))",
+        saffron: "hsl(var(--saffron))",
+        turmeric: "hsl(var(--turmeric))",
+        tandoori: "hsl(var(--tandoori))",
+        "spice-green": "hsl(var(--spice-green))",
+        cream: "hsl(var(--cream))",
+        parchment: "hsl(var(--parchment))",
+        copper: "hsl(var(--copper))",
+        "deep-maroon": "hsl(var(--deep-maroon))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -78,12 +78,20 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+          from: {
+            height: "0",
+          },
+          to: {
+            height: "var(--radix-accordion-content-height)",
+          },
         },
         "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          from: {
+            height: "var(--radix-accordion-content-height)",
+          },
+          to: {
+            height: "0",
+          },
         },
       },
       animation: {
