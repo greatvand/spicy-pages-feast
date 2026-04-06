@@ -47,10 +47,10 @@ const BookCover = ({ onOpen, isOpen }: BookCoverProps) => {
           >
             <div className="w-16 h-0.5 bg-saffron mx-auto mb-4" />
             <h1 className="font-display text-4xl md:text-5xl font-bold text-saffron tracking-wide">
-              Pop-Up India
+              Jeemann
             </h1>
             <p className="font-accent text-xl md:text-2xl text-saffron/70 mt-2 italic">
-              Discover Supper Clubs Across India
+              meet · eat · belong
             </p>
             <div className="w-16 h-0.5 bg-saffron mx-auto mt-4" />
           </motion.div>
