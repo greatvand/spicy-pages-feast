@@ -13,6 +13,9 @@ export interface SupperClubListing {
   description: string;
   bookingUrl: string;
   tags: string[];
+  story?: string;
+  hostBio?: string;
+  menuHighlights?: string[];
 }
 
 export interface CuisineCategory {

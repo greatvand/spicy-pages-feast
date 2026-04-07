@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { Calendar, Clock, MapPin, Users, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Calendar, Clock, MapPin, Users, ExternalLink, BookOpen, ChefHat, Sparkles } from "lucide-react";
 import type { SupperClubListing } from "@/types/supper-club";
 
 interface SupperClubCardProps {
@@ -9,6 +10,7 @@ interface SupperClubCardProps {
 }
 
 const SupperClubCard = ({ listing, index, accentColor }: SupperClubCardProps) => {
+  const [isStoryOpen, setIsStoryOpen] = useState(false);
   const spotsPercentage = (listing.spotsLeft / listing.capacity) * 100;
   const isAlmostFull = spotsPercentage <= 25;
 
@@ -68,6 +70,75 @@ const SupperClubCard = ({ listing, index, accentColor }: SupperClubCardProps) =>
         <p className="font-body text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-2">
           {listing.description}
         </p>
+
+        {/* Story toggle */}
+        {listing.story && (
+          <button
+            onClick={() => setIsStoryOpen(!isStoryOpen)}
+            className="flex items-center gap-1.5 mb-3 group/story"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-muted-foreground/70 group-hover/story:text-foreground transition-colors" />
+            <span className="font-accent text-xs italic text-muted-foreground/70 group-hover/story:text-foreground transition-colors underline underline-offset-2 decoration-dotted">
+              {isStoryOpen ? "Close the story" : "Why this dinner is special"}
+            </span>
+          </button>
+        )}
+
+        {/* Expandable story */}
+        <AnimatePresence>
+          {isStoryOpen && listing.story && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <div className="mb-4 p-3 rounded-md border border-border/40 bg-background/60">
+                {/* The Story */}
+                <div className="mb-3">
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <Sparkles className="w-3 h-3" style={{ color: accentColor }} />
+                    <span className="font-display text-xs font-semibold uppercase tracking-wider text-foreground/70">The Story</span>
+                  </div>
+                  <p className="font-accent text-sm italic text-foreground/80 leading-relaxed">
+                    "{listing.story}"
+                  </p>
+                </div>
+
+                {/* Host bio */}
+                {listing.hostBio && (
+                  <div className="mb-3">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <ChefHat className="w-3 h-3 text-muted-foreground/60" />
+                      <span className="font-body text-[10px] uppercase tracking-wider text-muted-foreground/60">About the Host</span>
+                    </div>
+                    <p className="font-body text-xs text-muted-foreground leading-relaxed">
+                      {listing.hostBio}
+                    </p>
+                  </div>
+                )}
+
+                {/* Menu highlights */}
+                {listing.menuHighlights && listing.menuHighlights.length > 0 && (
+                  <div>
+                    <span className="font-body text-[10px] uppercase tracking-wider text-muted-foreground/60 block mb-1.5">
+                      ✦ Menu Highlights
+                    </span>
+                    <ul className="space-y-1">
+                      {listing.menuHighlights.map((item, i) => (
+                        <li key={i} className="font-body text-xs text-foreground/70 flex items-start gap-1.5">
+                          <span className="w-1 h-1 rounded-full mt-1.5 shrink-0" style={{ background: accentColor }} />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Details */}
         <div className="grid grid-cols-2 gap-1.5 mb-4">
