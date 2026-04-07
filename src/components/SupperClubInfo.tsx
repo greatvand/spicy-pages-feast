@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { ChefHat, MapPin, Users, Star } from "lucide-react";
+import { ChefHat, MapPin, Users, Star, CalendarDays } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import BookPage from "./BookPage";
 
 const features = [
@@ -26,6 +27,7 @@ const features = [
 ];
 
 const SupperClubInfo = () => {
+  const navigate = useNavigate();
   return (
     <BookPage pageNumber={6} isActive={true}>
       <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
@@ -78,6 +80,13 @@ const SupperClubInfo = () => {
         >
           <button className="spice-gradient font-body text-primary-foreground px-10 py-4 rounded-full text-lg font-medium tracking-wide hover:opacity-90 transition-opacity shadow-lg">
             List Your Supper Club
+          </button>
+          <button
+            onClick={() => navigate("/calendar")}
+            className="ml-4 border-2 border-primary font-body text-foreground px-8 py-4 rounded-full text-lg font-medium tracking-wide hover:bg-primary hover:text-primary-foreground transition-colors"
+          >
+            <CalendarDays className="w-5 h-5 inline mr-2 -mt-0.5" />
+            Event Calendar
           </button>
           <p className="font-accent text-sm text-muted-foreground/60 mt-4 italic">
             Free to list • No commission on first 3 events
