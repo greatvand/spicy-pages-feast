@@ -6,7 +6,7 @@ import type { CuisineCategory } from "@/types/supper-club";
 
 export const cuisineCategories: CuisineCategory[] = [
   {
-    pageNumber: 2,
+    pageNumber: 4,
     title: "The Royal North",
     subtitle: "Chapter One",
     tagline: "Mughal grandeur meets rustic Punjabi soul — tandoor smoke, saffron milk, and slow-cooked perfection.",
@@ -73,7 +73,7 @@ export const cuisineCategories: CuisineCategory[] = [
     ],
   },
   {
-    pageNumber: 3,
+    pageNumber: 5,
     title: "The Verdant South",
     subtitle: "Chapter Two",
     tagline: "Coconut, curry leaves, and mustard seeds define a cuisine of elegant simplicity and fiery complexity.",
@@ -141,7 +141,7 @@ export const cuisineCategories: CuisineCategory[] = [
     ],
   },
   {
-    pageNumber: 4,
+    pageNumber: 6,
     title: "The Coastal Trail",
     subtitle: "Chapter Three",
     tagline: "Where the Arabian Sea meets the Bay of Bengal — kokum-kissed curries and the freshest catch.",
@@ -208,7 +208,7 @@ export const cuisineCategories: CuisineCategory[] = [
     ],
   },
   {
-    pageNumber: 5,
+    pageNumber: 7,
     title: "The Street Chapter",
     subtitle: "Chapter Four",
     tagline: "The true heartbeat of Indian food — sizzling tawas, tangy chutneys, and flavours without reservation.",

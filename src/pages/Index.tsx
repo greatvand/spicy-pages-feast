@@ -2,6 +2,8 @@ import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import BookCover from "@/components/BookCover";
 import IntroPage from "@/components/IntroPage";
+import HowItWorksPage from "@/components/HowItWorksPage";
+import WhyJeemannPage from "@/components/WhyJeemannPage";
 import CuisinePage from "@/components/CuisinePage";
 import SupperClubInfo from "@/components/SupperClubInfo";
 import { cuisineCategories } from "@/data/listings";
@@ -20,6 +22,8 @@ const Index = () => {
       {isBookOpen && (
         <main className="relative">
           <IntroPage />
+          <HowItWorksPage />
+          <WhyJeemannPage />
           {cuisineCategories.map((category) => (
             <CuisinePage key={category.pageNumber} {...category} />
           ))}

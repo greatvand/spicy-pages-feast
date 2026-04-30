@@ -29,7 +29,7 @@ const features = [
 const SupperClubInfo = () => {
   const navigate = useNavigate();
   return (
-    <BookPage pageNumber={6} isActive={true}>
+    <BookPage pageNumber={8} isActive={true}>
       <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
