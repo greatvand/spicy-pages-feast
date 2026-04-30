@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Clock, MapPin, Users, ExternalLink, BookOpen, ChefHat, Sparkles } from "lucide-react";
+import { ChefHat, Sparkles } from "lucide-react";
 import type { SupperClubListing } from "@/types/supper-club";
 
 interface SupperClubCardProps {
@@ -9,183 +9,236 @@ interface SupperClubCardProps {
   accentColor: string;
 }
 
+// Parse "Apr 12, 2026" -> { day: "12", month: "Apr" }
+const parseDate = (date: string) => {
+  const m = date.match(/^(\w+)\s+(\d+)/);
+  return m ? { month: m[1].toUpperCase(), day: m[2] } : { month: "", day: "" };
+};
+
 const SupperClubCard = ({ listing, index, accentColor }: SupperClubCardProps) => {
-  const [isStoryOpen, setIsStoryOpen] = useState(false);
-  const spotsPercentage = (listing.spotsLeft / listing.capacity) * 100;
-  const isAlmostFull = spotsPercentage <= 25;
+  const [isOpen, setIsOpen] = useState(false);
+  const { day, month } = parseDate(listing.date);
+  const filledPct = Math.round(((listing.capacity - listing.spotsLeft) / listing.capacity) * 100);
+  const issueNo = String(800 + index * 47 + listing.id.length * 13).slice(-3);
+  const signature = listing.menuHighlights?.[0];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
+    <motion.article
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: 0.2 + index * 0.12, duration: 0.5 }}
-      className="group bg-card/80 border border-border/60 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
+      transition={{ delay: 0.15 + index * 0.1, duration: 0.55 }}
+      className="relative flex flex-col md:flex-row min-h-[300px] overflow-hidden border shadow-2xl"
+      style={{
+        background: "hsl(var(--deep-maroon))",
+        borderColor: "hsl(var(--saffron) / 0.25)",
+      }}
     >
-      {/* Image */}
-      <div className="relative h-44 overflow-hidden">
-        <img
-          src={listing.image}
-          alt={listing.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
+      {/* === STUB: Date & Coordinate === */}
+      <div
+        className="md:w-52 shrink-0 flex flex-col justify-between p-6 relative"
+        style={{
+          background: "rgba(0,0,0,0.32)",
+          borderRight: "1.5px dashed hsl(var(--saffron) / 0.35)",
+        }}
+      >
+        {/* perforation circles */}
+        <span className="hidden md:block absolute -right-2 top-0 w-4 h-4 rounded-full bg-parchment" style={{ background: "hsl(var(--parchment))" }} />
+        <span className="hidden md:block absolute -right-2 bottom-0 w-4 h-4 rounded-full bg-parchment" style={{ background: "hsl(var(--parchment))" }} />
 
-        {/* Tags */}
-        <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap">
-          {listing.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-[10px] font-body font-medium uppercase tracking-wider px-2 py-0.5 rounded-full bg-background/80 text-foreground/80 backdrop-blur-sm"
-            >
-              {tag}
-            </span>
-          ))}
+        <div className="space-y-5">
+          <div
+            className="font-body text-[10px] uppercase tracking-[0.3em]"
+            style={{ color: "hsl(var(--saffron) / 0.85)" }}
+          >
+            Issue No. {issueNo}
+          </div>
+          <div>
+            <div className="font-display text-5xl leading-none text-primary-foreground">{day}</div>
+            <div className="font-body text-[10px] uppercase tracking-widest text-primary-foreground/80 mt-1">
+              {month} · {listing.time}
+            </div>
+          </div>
+          <div className="pt-3 border-t border-primary-foreground/10">
+            <div className="font-body text-[10px] uppercase tracking-widest text-primary-foreground/60 mb-1">
+              Coordinate
+            </div>
+            <div className="font-body text-xs text-primary-foreground/90">{listing.location}</div>
+          </div>
         </div>
-
-        {/* Spots badge */}
-        {isAlmostFull && (
-          <span className="absolute top-3 right-3 text-[10px] font-body font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-destructive text-destructive-foreground">
-            Almost Full
-          </span>
-        )}
-
-        {/* Price */}
-        <div className="absolute bottom-3 right-3">
-          <span className="font-display text-lg font-bold text-primary-foreground drop-shadow-md">
-            {listing.price}
-          </span>
+        <div className="hidden md:block">
+          <div
+            className="text-[9px] uppercase tracking-[0.4em] origin-bottom-left -rotate-90 translate-x-3 whitespace-nowrap"
+            style={{ color: "hsl(var(--saffron) / 0.4)" }}
+          >
+            Non-Transferable Passage
+          </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-4">
-        <p className="font-accent text-xs italic text-muted-foreground mb-1">
-          Hosted by {listing.host}
-        </p>
-        <h3 className="font-display text-lg font-bold text-foreground leading-snug mb-2">
-          {listing.name}
-        </h3>
-        <p className="font-body text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-2">
-          {listing.description}
-        </p>
-
-        {/* Story toggle */}
-        {listing.story && (
-          <button
-            onClick={() => setIsStoryOpen(!isStoryOpen)}
-            className="flex items-center gap-1.5 mb-3 group/story"
-          >
-            <BookOpen className="w-3.5 h-3.5 text-muted-foreground/70 group-hover/story:text-foreground transition-colors" />
-            <span className="font-accent text-xs italic text-muted-foreground/70 group-hover/story:text-foreground transition-colors underline underline-offset-2 decoration-dotted">
-              {isStoryOpen ? "Close the story" : "Why this dinner is special"}
+      {/* === MAIN: Title, Story, Signature === */}
+      <div className="flex-1 flex flex-col justify-between p-7">
+        <div>
+          <div className="flex justify-between items-start gap-4 mb-4">
+            <div className="flex flex-wrap gap-1.5">
+              {listing.tags.slice(0, 2).map((t) => (
+                <span
+                  key={t}
+                  className="px-2.5 py-1 text-[9px] uppercase tracking-widest border"
+                  style={{
+                    color: "hsl(var(--saffron))",
+                    borderColor: "hsl(var(--saffron) / 0.35)",
+                    background: "hsl(var(--saffron) / 0.08)",
+                  }}
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+            <span className="font-body text-[10px] uppercase tracking-widest text-primary-foreground/60 text-right">
+              Host: {listing.host}
             </span>
-          </button>
-        )}
+          </div>
 
-        {/* Expandable story */}
-        <AnimatePresence>
-          {isStoryOpen && listing.story && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="overflow-hidden"
+          <h3 className="font-display text-3xl md:text-4xl leading-[1.05] text-primary-foreground mb-4 text-balance">
+            {listing.name}
+          </h3>
+
+          <p className="font-body text-sm leading-relaxed text-primary-foreground/70 max-w-prose mb-5">
+            {listing.description}
+          </p>
+
+          <div className="flex flex-wrap gap-x-8 gap-y-3 border-t border-primary-foreground/10 pt-4">
+            {signature && (
+              <div>
+                <div className="font-body text-[9px] uppercase tracking-widest text-primary-foreground/40 mb-0.5">
+                  Signature
+                </div>
+                <div className="font-body text-xs font-medium text-primary-foreground/90">{signature}</div>
+              </div>
+            )}
+            <div>
+              <div className="font-body text-[9px] uppercase tracking-widest text-primary-foreground/40 mb-0.5">
+                Cuisine
+              </div>
+              <div className="font-body text-xs font-medium text-primary-foreground/90">{listing.cuisine}</div>
+            </div>
+          </div>
+
+          {listing.story && (
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="mt-4 font-accent italic text-sm underline underline-offset-4 decoration-dotted transition-colors"
+              style={{ color: "hsl(var(--saffron) / 0.85)" }}
             >
-              <div className="mb-4 p-3 rounded-md border border-border/40 bg-background/60">
-                {/* The Story */}
-                <div className="mb-3">
+              {isOpen ? "— close the passage —" : "— read the passage —"}
+            </button>
+          )}
+
+          <AnimatePresence initial={false}>
+            {isOpen && listing.story && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="overflow-hidden"
+              >
+                <div
+                  className="mt-4 p-5 border-l-2"
+                  style={{
+                    background: "rgba(0,0,0,0.25)",
+                    borderColor: "hsl(var(--saffron) / 0.6)",
+                  }}
+                >
                   <div className="flex items-center gap-1.5 mb-2">
-                    <Sparkles className="w-3 h-3" style={{ color: accentColor }} />
-                    <span className="font-display text-xs font-semibold uppercase tracking-wider text-foreground/70">The Story</span>
+                    <Sparkles className="w-3 h-3" style={{ color: "hsl(var(--saffron))" }} />
+                    <span className="font-body text-[10px] uppercase tracking-widest text-primary-foreground/60">
+                      The Story
+                    </span>
                   </div>
-                  <p className="font-accent text-sm italic text-foreground/80 leading-relaxed">
+                  <p className="font-accent italic text-sm leading-relaxed text-primary-foreground/85 mb-4">
                     "{listing.story}"
                   </p>
-                </div>
-
-                {/* Host bio */}
-                {listing.hostBio && (
-                  <div className="mb-3">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <ChefHat className="w-3 h-3 text-muted-foreground/60" />
-                      <span className="font-body text-[10px] uppercase tracking-wider text-muted-foreground/60">About the Host</span>
+                  {listing.hostBio && (
+                    <div className="mb-3">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <ChefHat className="w-3 h-3 text-primary-foreground/50" />
+                        <span className="font-body text-[10px] uppercase tracking-widest text-primary-foreground/50">
+                          About the Host
+                        </span>
+                      </div>
+                      <p className="font-body text-xs text-primary-foreground/70 leading-relaxed">
+                        {listing.hostBio}
+                      </p>
                     </div>
-                    <p className="font-body text-xs text-muted-foreground leading-relaxed">
-                      {listing.hostBio}
-                    </p>
-                  </div>
-                )}
+                  )}
+                  {listing.menuHighlights && listing.menuHighlights.length > 1 && (
+                    <div>
+                      <span className="font-body text-[10px] uppercase tracking-widest text-primary-foreground/50 block mb-1.5">
+                        ✦ Full Menu
+                      </span>
+                      <ul className="space-y-1">
+                        {listing.menuHighlights.map((m, i) => (
+                          <li key={i} className="font-body text-xs text-primary-foreground/75 flex gap-2">
+                            <span
+                              className="w-1 h-1 rounded-full mt-1.5 shrink-0"
+                              style={{ background: "hsl(var(--saffron))" }}
+                            />
+                            {m}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
 
-                {/* Menu highlights */}
-                {listing.menuHighlights && listing.menuHighlights.length > 0 && (
-                  <div>
-                    <span className="font-body text-[10px] uppercase tracking-wider text-muted-foreground/60 block mb-1.5">
-                      ✦ Menu Highlights
-                    </span>
-                    <ul className="space-y-1">
-                      {listing.menuHighlights.map((item, i) => (
-                        <li key={i} className="font-body text-xs text-foreground/70 flex items-start gap-1.5">
-                          <span className="w-1 h-1 rounded-full mt-1.5 shrink-0" style={{ background: accentColor }} />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Details */}
-        <div className="grid grid-cols-2 gap-1.5 mb-4">
-          <div className="flex items-center gap-1.5">
-            <Calendar className="w-3 h-3 text-muted-foreground/60" />
-            <span className="font-body text-[11px] text-muted-foreground">{listing.date}</span>
+      {/* === GOLD ACTION PANEL === */}
+      <div
+        className="md:w-60 shrink-0 p-6 flex md:flex-col flex-row justify-between items-center md:items-stretch gap-4"
+        style={{
+          background: `linear-gradient(160deg, hsl(var(--saffron)), hsl(var(--turmeric)))`,
+          color: "hsl(var(--foreground))",
+        }}
+      >
+        <div>
+          <div className="font-body text-[10px] uppercase font-bold tracking-widest opacity-70">
+            Fare per seat
           </div>
-          <div className="flex items-center gap-1.5">
-            <Clock className="w-3 h-3 text-muted-foreground/60" />
-            <span className="font-body text-[11px] text-muted-foreground">{listing.time}</span>
+          <div className="font-display text-3xl md:text-4xl tabular-nums leading-tight">
+            {listing.price}
           </div>
-          <div className="flex items-center gap-1.5">
-            <MapPin className="w-3 h-3 text-muted-foreground/60" />
-            <span className="font-body text-[11px] text-muted-foreground truncate">{listing.location}</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Users className="w-3 h-3 text-muted-foreground/60" />
-            <span className="font-body text-[11px] text-muted-foreground">
-              {listing.spotsLeft} of {listing.capacity} left
+        </div>
+        <div className="md:space-y-3 md:w-full flex-1 md:flex-none">
+          <div className="hidden md:flex justify-between text-[10px] font-bold uppercase tracking-tight">
+            <span>Spots</span>
+            <span className="tabular-nums">
+              {String(listing.spotsLeft).padStart(2, "0")} / {String(listing.capacity).padStart(2, "0")}
             </span>
           </div>
-        </div>
-
-        {/* Capacity bar */}
-        <div className="w-full h-1 rounded-full bg-muted mb-4">
-          <div
-            className="h-full rounded-full transition-all duration-500"
+          <div className="hidden md:block w-full h-1 bg-foreground/15">
+            <div className="h-full bg-foreground" style={{ width: `${filledPct}%` }} />
+          </div>
+          <a
+            href={listing.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full text-center py-3 px-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:opacity-90"
             style={{
-              width: `${100 - spotsPercentage}%`,
-              background: accentColor,
+              background: "hsl(var(--deep-maroon))",
+              color: "hsl(var(--saffron))",
             }}
-          />
+          >
+            Secure Passage
+          </a>
         </div>
-
-        {/* RSVP Button */}
-        <a
-          href={listing.bookingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-md font-body text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-          style={{ background: accentColor }}
-        >
-          Reserve a Seat
-          <ExternalLink className="w-3.5 h-3.5" />
-        </a>
       </div>
-    </motion.div>
+    </motion.article>
   );
 };
 

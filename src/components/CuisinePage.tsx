@@ -75,7 +75,7 @@ const CuisinePage = ({
             <div className="flex-1 h-px bg-border/50" />
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-8">
             {listings.map((listing, i) => (
               <SupperClubCard
                 key={listing.id}
