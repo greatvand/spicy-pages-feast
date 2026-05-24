@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChefHat, Sparkles } from "lucide-react";
+import { ChefHat, Sparkles, Gift } from "lucide-react";
 import type { SupperClubListing } from "@/types/supper-club";
 
 interface SupperClubCardProps {
