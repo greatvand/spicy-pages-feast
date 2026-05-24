@@ -34,6 +34,24 @@ const SupperClubCard = ({ listing, index, accentColor }: SupperClubCardProps) =>
         borderColor: "hsl(var(--saffron) / 0.25)",
       }}
     >
+      {/* === SPECIAL OFFER BANNER === */}
+      {listing.specialOffer && (
+        <div className="absolute top-0 right-0 z-10 overflow-hidden w-36 h-36 pointer-events-none">
+          <div
+            className="absolute top-5 -right-10 w-48 text-center py-1 font-body text-[9px] font-bold uppercase tracking-[0.15em] rotate-45 shadow-lg"
+            style={{
+              background: "linear-gradient(90deg, hsl(var(--saffron)), hsl(var(--turmeric)))",
+              color: "hsl(var(--deep-maroon))",
+            }}
+          >
+            <span className="inline-flex items-center gap-1">
+              <Gift className="w-3 h-3" />
+              {listing.specialOffer}
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* === STUB: Date & Coordinate === */}
       <div
         className="md:w-52 shrink-0 flex flex-col justify-between p-6 relative"
