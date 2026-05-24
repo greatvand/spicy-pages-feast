@@ -13,6 +13,7 @@ export interface SupperClubListing {
   description: string;
   bookingUrl: string;
   tags: string[];
+  specialOffer?: string;
   story?: string;
   hostBio?: string;
   menuHighlights?: string[];
